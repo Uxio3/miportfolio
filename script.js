@@ -70,7 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===== EmailJS Configuration =====
-// INSTRUCCIONES PARA CONFIGURAR EMAILJS:
+// NOTA: El formulario ahora usa mailto: para abrir el cliente de correo del usuario
+// Si prefieres usar EmailJS en el futuro, descomenta y configura las siguientes líneas:
 // 1. Crea una cuenta gratuita en https://www.emailjs.com/
 // 2. Ve a "Email Services" y conecta tu servicio de email (Gmail, Outlook, etc.)
 // 3. Ve a "Email Templates" y crea una nueva plantilla con estos campos:
@@ -83,77 +84,47 @@ document.addEventListener('DOMContentLoaded', function() {
 // 6. Ve a "Email Templates" y copia tu "Template ID"
 // 7. Reemplaza los valores 'YOUR_PUBLIC_KEY', 'YOUR_SERVICE_ID' y 'YOUR_TEMPLATE_ID' abajo
 
-// Inicializar EmailJS cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
-    // Reemplaza 'YOUR_PUBLIC_KEY' con tu Public Key de EmailJS
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init("YOUR_PUBLIC_KEY"); // Reemplaza con tu Public Key de EmailJS
-    }
-});
-
 // ===== Contact Form Handler =====
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
     
     contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const btnEnviar = document.getElementById('btnEnviar');
-    const mensajeEnvio = document.getElementById('mensajeEnvio');
-    const nombre = document.getElementById('nombreContacto').value;
-    const email = document.getElementById('emailContacto').value;
-    const asunto = document.getElementById('asuntoContacto').value;
-    const mensaje = document.getElementById('mensajeContacto').value;
-    
-    // Deshabilitar botón mientras se envía
-    btnEnviar.disabled = true;
-    btnEnviar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enviando...';
-    mensajeEnvio.style.display = 'none';
-    
-    // Parámetros para EmailJS
-    // Nota: Necesitarás configurar un servicio y plantilla en EmailJS
-    // Reemplaza 'YOUR_SERVICE_ID' y 'YOUR_TEMPLATE_ID' con tus IDs
-    const templateParams = {
-        from_name: nombre,
-        from_email: email,
-        subject: asunto,
-        message: mensaje,
-        to_email: 'adrian.valdes.profesional@gmail.com'
-    };
-    
-    // Enviar email usando EmailJS
-    // Reemplaza 'YOUR_SERVICE_ID' y 'YOUR_TEMPLATE_ID' con tus IDs de EmailJS
-    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-        .then(function(response) {
-            // Éxito
-            mensajeEnvio.className = 'alert alert-success mt-3';
-            mensajeEnvio.innerHTML = '<i class="bi bi-check-circle me-2"></i>¡Mensaje enviado correctamente! Te responderé pronto.';
+        e.preventDefault();
+        
+        const btnEnviar = document.getElementById('btnEnviar');
+        const mensajeEnvio = document.getElementById('mensajeEnvio');
+        const nombre = document.getElementById('nombreContacto').value;
+        const email = document.getElementById('emailContacto').value;
+        const asunto = document.getElementById('asuntoContacto').value;
+        const mensaje = document.getElementById('mensajeContacto').value;
+        
+        // Validar que todos los campos estén llenos
+        if (!nombre || !email || !asunto || !mensaje) {
+            mensajeEnvio.className = 'alert alert-warning mt-3';
+            mensajeEnvio.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Por favor, completa todos los campos.';
             mensajeEnvio.style.display = 'block';
-            
-            // Resetear formulario
+            return;
+        }
+        
+        // Crear el enlace mailto con el contenido del formulario
+        const subject = encodeURIComponent(asunto);
+        const body = encodeURIComponent(`Nombre: ${nombre}\nEmail: ${email}\n\nMensaje:\n${mensaje}`);
+        const mailtoLink = `mailto:adrian.valdes.profesional@gmail.com?subject=${subject}&body=${body}`;
+        
+        // Abrir el cliente de correo del usuario
+        window.location.href = mailtoLink;
+        
+        // Mostrar mensaje de éxito
+        mensajeEnvio.className = 'alert alert-success mt-3';
+        mensajeEnvio.innerHTML = '<i class="bi bi-check-circle me-2"></i>Se abrirá tu cliente de correo. Si no se abre automáticamente, puedes enviarme un email a: <a href="mailto:adrian.valdes.profesional@gmail.com" class="alert-link">adrian.valdes.profesional@gmail.com</a>';
+        mensajeEnvio.style.display = 'block';
+        
+        // Resetear formulario después de un momento
+        setTimeout(() => {
             document.getElementById('contactForm').reset();
-            
-            // Restaurar botón
-            btnEnviar.disabled = false;
-            btnEnviar.innerHTML = '<i class="bi bi-send me-2"></i>Enviar Mensaje';
-            
-            // Ocultar mensaje después de 5 segundos
-            setTimeout(() => {
-                mensajeEnvio.style.display = 'none';
-            }, 5000);
-        }, function(error) {
-            // Error
-            mensajeEnvio.className = 'alert alert-danger mt-3';
-            mensajeEnvio.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Error al enviar el mensaje. Por favor, inténtalo de nuevo o contáctame directamente en adrian.valdes.profesional@gmail.com';
-            mensajeEnvio.style.display = 'block';
-            
-            // Restaurar botón
-            btnEnviar.disabled = false;
-            btnEnviar.innerHTML = '<i class="bi bi-send me-2"></i>Enviar Mensaje';
-            
-            console.error('Error al enviar email:', error);
-        });
+            mensajeEnvio.style.display = 'none';
+        }, 10000);
     });
 });
 

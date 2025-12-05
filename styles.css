@@ -206,10 +206,9 @@ section {
 /* ===== About Section ===== */
 .about-image img {
     transition: transform 0.3s ease;
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    aspect-ratio: 1 / 1;
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
 }
 
 .about-image img:hover {
@@ -408,4 +407,3 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
-
