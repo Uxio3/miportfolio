@@ -1,4 +1,4 @@
-// ===== Navbar Scroll Effect =====
+// Navbar Scroll Effect
 window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
@@ -8,13 +8,13 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// ===== Smooth Scroll for Navigation Links =====
+// Smooth Scroll for Navigation Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            const offsetTop = target.offsetTop - 70; // Navbar height
+            const offsetTop = target.offsetTop - 70;
             window.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'
@@ -23,7 +23,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ===== Active Nav Link on Scroll =====
+// Active Nav Link on Scroll
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link');
 
@@ -46,7 +46,7 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// ===== Scroll Animation =====
+// Scroll Animation
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -100px 0px'
@@ -69,22 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// ===== EmailJS Configuration =====
-// NOTA: El formulario ahora usa mailto: para abrir el cliente de correo del usuario
-// Si prefieres usar EmailJS en el futuro, descomenta y configura las siguientes líneas:
-// 1. Crea una cuenta gratuita en https://www.emailjs.com/
-// 2. Ve a "Email Services" y conecta tu servicio de email (Gmail, Outlook, etc.)
-// 3. Ve a "Email Templates" y crea una nueva plantilla con estos campos:
-//    - from_name: {{from_name}}
-//    - from_email: {{from_email}}
-//    - subject: {{subject}}
-//    - message: {{message}}
-// 4. Ve a "Account" > "General" y copia tu "Public Key"
-// 5. Ve a "Email Services" y copia tu "Service ID"
-// 6. Ve a "Email Templates" y copia tu "Template ID"
-// 7. Reemplaza los valores 'YOUR_PUBLIC_KEY', 'YOUR_SERVICE_ID' y 'YOUR_TEMPLATE_ID' abajo
-
-// ===== Contact Form Handler =====
+// EmailJS Configuration 
+// Contact Form Handler
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
@@ -128,23 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// ===== Typing Effect (Optional - for hero section) =====
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.textContent = '';
-    
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    
-    type();
-}
 
-// ===== Initialize on page load =====
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     // Add fade-in animation to sections
     const sections = document.querySelectorAll('section');
@@ -173,20 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ===== Project Card Click Handler =====
-document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('click', function(e) {
-        // Prevent navigation if clicking on buttons
-        if (!e.target.closest('.project-links')) {
-            const projectLink = this.querySelector('.project-links a');
-            if (projectLink) {
-                // You can add custom behavior here
-            }
-        }
-    });
-});
-
-// ===== Skill Badge Hover Effect =====
+// Skill Badge Hover Effect
 document.querySelectorAll('.skill-list .badge').forEach(badge => {
     badge.addEventListener('mouseenter', function() {
         this.style.transform = 'scale(1.1)';
